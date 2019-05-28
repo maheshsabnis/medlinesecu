@@ -1,0 +1,75 @@
+<h1>The Product Form</h1>
+<form name="frmPrd" (ngSubmit)="save()" [formGroup]="frmPrd">
+    <div class="container" [hidden]="!isFormSubmitted">
+        <div class="form-group">
+            <label for="ProductRowId">ProductRowId</label>
+            <input type="text" class="form-control" formControlName="ProductRowId">
+            <div class="alert alert-danger"
+                *ngIf="frmPrd.controls.ProductRowId.dirty&&!frmPrd.controls.ProductRowId.valid">
+                <span *ngIf="frmPrd.controls.ProductRowId.errors.required">ProductRowId is required</span>
+                <span *ngIf="frmPrd.controls.ProductRowId.errors.minlength">ProductRowId must be min 2 digits</span>
+                <span *ngIf="frmPrd.controls.ProductRowId.errors.maxlength">ProductRowId must be max 6 digits</span>
+                <span *ngIf="frmPrd.controls.ProductRowId.errors.pattern">ProductRowId must be Positive numeric</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="ProductId">ProductId</label>
+            <input type="text" class="form-control" formControlName="ProductId">
+        </div>
+        <div class="form-group">
+            <label for="ProductName">Product Name</label>
+            <input type="text" class="form-control" formControlName="ProductName">
+        </div>
+        <div class="form-group">
+            <label for="Price">Price</label>
+            <input type="text" class="form-control" formControlName="Price">
+            <div class="alert alert-danger" *ngIf="frmPrd.controls.Price.dirty&&!frmPrd.controls.Price.valid">
+                <span *ngIf="frmPrd.controls.Price.invalid">Price must be Positive</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="CategoryName">Category Name</label>
+            <select class="form-control" formControlName="CategoryName">
+                <option>Select Category</option>
+                <option *ngFor="let c of categories" value="{{c}}">{{c}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="Manufacturer">Manufacturer</label>
+            <select class="form-control" formControlName="Manufacturer">
+                <option>Select Manufacturer</option>
+                <option *ngFor="let m of manufacturers" value="{{m}}">{{m}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="Description">Description</label>
+            <textarea class="form-control" formControlName="Description"></textarea>
+        </div>
+        <div class="form-group">
+            <input type="button" value="New" class="btn btn-default" (click)="clear()">
+            <input type="submit" [disabled]="!frmPrd.valid" value="Save" class="btn btn-success">
+        </div>
+    </div>
+</form>
+<hr>
+<div class="container" [hidden]="isFormSubmitted">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <td *ngFor="let c of tableHeaders">{{c}}</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let p of products" (click)="getSelectedProduct(p)">
+                <td *ngFor="let c of tableHeaders">{{p[c]}}</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="7">
+                    <input type="button" value="Load Form" (click)="loadForm()" class="btn btn-warning">
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
